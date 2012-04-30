@@ -13,18 +13,16 @@
 #You should have received a copy of the GNU General Public License
 #along with linkrease.  If not, see <http://www.gnu.org/licenses/>.
 
-import cocos
-from cocos.actions import *
 from cocos.director import director
 
-from settings import *
+import settings
 from scenes import IntroScene, MenuScene
 
 
 def main():
-    director.init(width=SCR_W, height=SCR_H, vsync=False)
+    director.init(width=settings.SCR_W, height=settings.SCR_H, vsync=False)
     director.set_show_FPS(True)
-    director.run(IntroScene() if not SKIP_INTRO else MenuScene())
+    director.run(IntroScene() if not settings.SKIP_INTRO else MenuScene())
 
 
 if __name__ == "__main__":
