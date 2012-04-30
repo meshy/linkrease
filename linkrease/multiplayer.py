@@ -19,5 +19,6 @@ import settings
 def current_player():
     return settings.PLAYER[1]
 
+
 def neutral_player():
     return settings.PLAYER[0]

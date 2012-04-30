@@ -60,7 +60,7 @@ class IntroScene(cocos.scene.Scene):
             Accelerate(FadeIn(4), rate=2) +
             Delay(1) +
             FadeOut(2) +
-            CallFunc(self.on_end_intro) #called when animations are finished
+            CallFunc(self.on_end_intro)  # called when animations are finished
         )
 
     def on_end_intro(self):
@@ -83,10 +83,8 @@ class MainMenu(cocos.menu.Menu):
         self.font_title['font_size'] = 60
         self.font_item['font_name'] = 'Courier New'
         self.font_item['font_size'] = 30
-#        self.font_item['color'] = (0,0,0,255)
         self.font_item_selected['font_name'] = 'Courier New'
         self.font_item_selected['font_size'] = 30
-#        self.font_item_selected['color'] = (100,100,100,255)
 
         items = [
             cocos.menu.MenuItem('New Game', self.on_new_game),
@@ -101,12 +99,14 @@ class MainMenu(cocos.menu.Menu):
 
     def on_options(self):
         pass
-    
+
     def on_quit(self):
         pass
 
+
 class GameLayerController(cocos.layer.scrolling.ScrollingManager):
     is_event_handler = True
+
     def __init__(self, map):
         super(GameLayerController, self).__init__()
         self.scale = settings.ZOOM_MIN
@@ -141,21 +141,21 @@ class GameLayerController(cocos.layer.scrolling.ScrollingManager):
     def on_mouse_drag(self, x, y, dx, dy, buttons, modifiers):
         player = current_player()
         if self.map.selected_node(player) is not None:
-            px, py = self.map_view.map_from_pixel(*self.pixel_from_screen(x,y))
+            px, py = self.map_view.map_from_pixel(*self.pixel_from_screen(x, y))
             n = self.map.closest_node_to(px, py)
             self.map.target_node(player, n)
 
     def on_mouse_scroll(self, x, y, dx, dy):
         """
         Zoom on mouse scroll.
-        
+
         x, y: position of mouse on screen
         dx: horizontal scroll value
         dy: vertical scroll value
         """
         #calculate next scale value
         scale = self.scale + (settings.ZOOM_STEP * dy)
-        
+
         #restrict to bounds
         if scale < settings.ZOOM_MIN:
             scale = settings.ZOOM_MIN
@@ -165,13 +165,13 @@ class GameLayerController(cocos.layer.scrolling.ScrollingManager):
         if scale != self.scale:
             #set scale
             self.scale = scale
-            px, py = self.pixel_from_screen(x,y)
+            px, py = self.pixel_from_screen(x, y)
             #set centre point
             self.set_focus(px, py)
 
     def on_model_change(self):
         self.map_view.on_model_change()
-    
+
     def on_fleet_launched(self, fleet):
         fleet.add_arrival_listener(self.on_fleet_arrived)
         self.schedule(fleet.step_time)
@@ -180,9 +180,9 @@ class GameLayerController(cocos.layer.scrolling.ScrollingManager):
         self.map.deploy(fleet.get_target(), fleet.get_num_units(), fleet.get_owner())
         self.unschedule(fleet.step_time)
 
+
 class GameScene(cocos.scene.Scene):
-    
-    def __init__(self, graph=None, player_start=[0,]):
+    def __init__(self, graph=None, player_start=[0]):
         super(GameScene, self).__init__()
 
         if graph:
@@ -193,7 +193,7 @@ class GameScene(cocos.scene.Scene):
         #add scrolling manager
         self.game_layer_controller = GameLayerController(self.G)
         self.add(self.game_layer_controller)
-         
+
         #add base_layer
         self.base_layer = cocos.layer.ColorLayer(*settings.COLOUR_DATA['game']['background'])
         self.add(self.base_layer)

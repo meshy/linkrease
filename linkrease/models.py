@@ -22,6 +22,7 @@ import levels
 
 DIRTY_FLAG_KEYS = ['nodes', 'links', 'units', 'positions']
 
+
 class Map(object):
 
     def __init__(self, base_graph):
@@ -43,21 +44,20 @@ class Map(object):
             self.get_creased(n1, n2)
             #removes highlights
             self.set_highlight(n1, n2, False)
-            
+
             if settings.ADD_RANDOM_CREASES:
-                if (n1 % 3)==0 and (n2 % 3) ==0:
+                if (n1 % 3) == 0 and (n2 % 3) == 0:
                     self.set_creased(n1, n2, True)
-        
 
     def add_listener(self, callback):
         self._listeners.append(callback)
-        
+
     def add_fleet_listener(self, callback):
         self._fleet_listeners.append(callback)
 
     def notify_listeners(self):
         [callback() for callback in self._listeners]
-        
+
     def notify_fleet_listeners(self, fleet):
         [callback(fleet) for callback in self._fleet_listeners]
 
@@ -104,8 +104,8 @@ class Map(object):
         positions = self.get_positions()
         dx = positions[n1][0] - positions[n2][0]
         dy = positions[n1][1] - positions[n2][1]
-        ratio = settings.UNIT_SPEED['ratio'] if creased else 1.0 
-        weight = sqrt(dx*dx + dy*dy) * ratio
+        ratio = settings.UNIT_SPEED['ratio'] if creased else 1.0
+        weight = sqrt(dx * dx + dy * dy) * ratio
         self.set_weight(n1, n2, weight)
         no_event or self.notify_listeners()
 
@@ -192,12 +192,12 @@ class Map(object):
 
         #init
         dist = 2.0
-        node=None
+        node = None
 
         for n, (nx, ny) in self.get_positions().items():
             dx = x - nx
             dy = y - ny
-            new_dist = dx*dx + dy*dy
+            new_dist = dx * dx + dy * dy
             if new_dist <= dist:
                 dist = new_dist
                 node = n
@@ -236,8 +236,8 @@ class Map(object):
         #set highlight on new route
         if source is not None and source is not target:
             path = nx.shortest_path(self._G, source=source, target=target, weighted=True)
-            for n in xrange(len(path)-1):
-                self.set_highlight(path[n], path[n+1], True, no_event=True)
+            for n in xrange(len(path) - 1):
+                self.set_highlight(path[n], path[n + 1], True, no_event=True)
 
     def move_units_to_target(self, player, units=None):
         source = self._selected_node[player]
@@ -261,7 +261,6 @@ class Fleet(object):
         self._next = self. _map.shortest_path(self._source, self._target)[1]
         self._dist_from_prev = 0
         self._jump_dist = self._map.get_weight(self._source, self._next)
-        
         self._listeners = []
 
     def add_arrival_listener(self, callback):
@@ -276,12 +275,12 @@ class Fleet(object):
             link_type = self._map.get_type(self._source, self._next)
             dist = settings.UNIT_SPEED[link_type] * dt
             self._dist_from_prev += dist
-            if self._dist_from_prev - self._jump_dist >= 0.0: #on next node
+            if self._dist_from_prev - self._jump_dist >= 0.0:  # on next node
                 #move to next node
                 self._source = self._next
                 try:
                     self._next = self._map.shortest_path(self._source, self._target)[1]
-                except IndexError: #on last node, jump to bottom
+                except IndexError:  # on last node, jump to bottom
                     break
                 self._jump_dist = self._map.get_weight(self._source, self._next)
 
@@ -291,7 +290,7 @@ class Fleet(object):
                 self._dist_from_prev = 0.0
             else:
                 dt = 0
-        if self._source == self._next: #on last node
+        if self._source == self._next:  # on last node
             self._arrive()
 
     def get_num_units(self):

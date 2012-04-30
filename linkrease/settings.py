@@ -50,27 +50,27 @@ COLOUR_DATA = {
                'game': {
                         'background': (255, 255, 255, 255),
                         'link': {
-                                 False: (0,192,192), #standard
-                                 True: (0,0,0), #highlighted
+                                 False: (0, 192, 192),  # standard
+                                 True: (0, 0, 0),  # highlighted
                                  },
                         'crease': {
-                                   False: (0,128,192), #standard
-                                   True: (0,0,0), #highlighted
+                                   False: (0, 128, 192),  # standard
+                                   True: (0, 0, 0),  # highlighted
                                    },
                         'node': {
-                                 PLAYER[0]: (192,192,192),
-                                 PLAYER[1]: (0,160,0),
-                                 PLAYER[2]: (160,0,0),
+                                 PLAYER[0]: (192, 192, 192),
+                                 PLAYER[1]: (0, 160, 0),
+                                 PLAYER[2]: (160, 0, 0),
                                  },
                         'factory': {
-                                    PLAYER[0]: (192,192,192),
-                                    PLAYER[1]: (0,160,0),
-                                    PLAYER[2]: (160,0,0),
+                                    PLAYER[0]: (192, 192, 192),
+                                    PLAYER[1]: (0, 160, 0),
+                                    PLAYER[2]: (160, 0, 0),
                                     },
                         'unit': {
-                                 PLAYER[0]: (192,192,192),
-                                 PLAYER[1]: (0,160,0),
-                                 PLAYER[2]: (160,0,0),
+                                 PLAYER[0]: (192, 192, 192),
+                                 PLAYER[1]: (0, 160, 0),
+                                 PLAYER[2]: (160, 0, 0),
                                  },
                         },
                }
@@ -83,7 +83,7 @@ IMAGE_DATA = {
               'unit': image.load('unit.png'),
               }
 
-UNIT_SPEED = { #per second
+UNIT_SPEED = {  # per second
               'link': 0.06,
               'crease': 0.2,
              }

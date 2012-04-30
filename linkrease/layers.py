@@ -23,6 +23,7 @@ from cocos.actions import *
 import settings
 from multiplayer import neutral_player
 
+
 class MapView(cocos.layer.scrolling.ScrollableLayer):
     def __init__(self, map):
         super(MapView, self).__init__()
@@ -38,9 +39,9 @@ class MapView(cocos.layer.scrolling.ScrollableLayer):
         self.init_node_sprites()
         self.init_link_sprites()
         self.add(BatchNode(), z=3, name="units")
-        
+
         self.map.add_fleet_listener(self.on_fleet_launched)
-        
+
     def draw(self):
         for fleet, fleet_spr in self.fleetsprites.items():
             fleet_spr.position = self.pixel_from_map(*fleet.get_pos())
@@ -69,17 +70,17 @@ class MapView(cocos.layer.scrolling.ScrollableLayer):
         self.get('units').remove(fleet_sprite)
         self.fleetsprites.pop(fleet)
 
-    def map_from_pixel(self,x,y):
+    def map_from_pixel(self, x, y):
         """
         convert pixel coordinates into map space
         """
-        return (x/settings.LVL_W, y/settings.LVL_H)
+        return (x / settings.LVL_W, y / settings.LVL_H)
 
-    def pixel_from_map(self,x,y):
+    def pixel_from_map(self, x, y):
         """
         convert map space into  pixel coordinates
         """
-        return (x*settings.LVL_W, y*settings.LVL_H)
+        return (x * settings.LVL_W, y * settings.LVL_H)
 
     def init_node_sprites(self, wipe=False):
         if wipe:
@@ -90,14 +91,14 @@ class MapView(cocos.layer.scrolling.ScrollableLayer):
 
         #make node sprites
         nodes = BatchNode()
-        
+
         raw_positions = self.map.get_positions()
         rotate_effect = Repeat(RotateBy(-360, 2))
         for n in raw_positions:
             #get node position
             x, y = raw_positions[n]
-            pos = (x*settings.LVL_W, y*settings.LVL_H)
-            
+            pos = (x * settings.LVL_W, y * settings.LVL_H)
+
             #get type of node
             type = self.map.get_type(n)
 
@@ -112,14 +113,14 @@ class MapView(cocos.layer.scrolling.ScrollableLayer):
 
         #add nodes to map_layer
         self.add(nodes, z=1, name="nodes")
-        
+
         self.update_node_sprites()
 
     def init_link_sprites(self, wipe=False):
         if wipe:
             #wipe old sprites
             for start, end in self.map.edges_iter():
-                 self.linksprites[start][end] = None
+                self.linksprites[start][end] = None
             self.remove("links")
 
         #make links
@@ -130,16 +131,19 @@ class MapView(cocos.layer.scrolling.ScrollableLayer):
             end_node = self.nodesprites[end]
 
             #get centre of line
-            pos = ((start_node.x + end_node.x)/2,
-                  (start_node.y + end_node.y)/2)
-            
+            pos = ((start_node.x + end_node.x) / 2,
+                  (start_node.y + end_node.y) / 2)
+
             #get type of link
             type = self.map.get_type(start, end)
 
             link_spr = Sprite(
                 image=settings.IMAGE_DATA[type],
                 position=pos,
-                rotation=-degrees(atan2((end_node.y-start_node.y), (end_node.x-start_node.x)))
+                rotation=-degrees(atan2(
+                    (end_node.y - start_node.y),
+                    (end_node.x - start_node.x),
+                ))
             )
 
             #add link to lists
@@ -172,4 +176,3 @@ class MapView(cocos.layer.scrolling.ScrollableLayer):
 
     def update_unit_sprites(self):
         pass
-

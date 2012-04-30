@@ -13,19 +13,18 @@
 #You should have received a copy of the GNU General Public License
 #along with linkrease.  If not, see <http://www.gnu.org/licenses/>.
 
-import new
-
 import networkx as nx
 
 import models
 import settings
 
+
 def generate_random_level(nodes=180, radius=0.1, repel=0.05, players=2):
     """
     Generates random graph.
     Occupies one planet per player.
-    
-    pre: nodes > 0 
+
+    pre: nodes > 0
     pre: players > nodes
     pre: players > 0
     """
