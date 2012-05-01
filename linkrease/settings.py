@@ -51,11 +51,11 @@ COLOUR_DATA = {
                         'background': (255, 255, 255, 255),
                         'link': {
                                  False: (0, 192, 192),  # standard
-                                 True: (0, 0, 0),  # highlighted
+                                 True: (255, 128, 0),  # highlighted
                                  },
                         'crease': {
                                    False: (0, 128, 192),  # standard
-                                   True: (0, 0, 0),  # highlighted
+                                   True: (255, 128, 0),  # highlighted
                                    },
                         'node': {
                                  PLAYER[0]: (192, 192, 192),
@@ -85,7 +85,7 @@ IMAGE_DATA = {
 
 UNIT_SPEED = {  # per second
               'link': 0.06,
-              'crease': 0.2,
+              'crease': 0.15,
              }
 
 UNIT_SPEED['ratio'] = UNIT_SPEED['link'] / UNIT_SPEED['crease']
