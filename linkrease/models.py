@@ -176,7 +176,22 @@ class Map(object):
             return "crease" if self.get_creased(n1, n2) else "link"
 
     def shortest_path(self, source, target):
-        return nx.shortest_path(self._G, source=source, target=target, weighted=True)
+        try:
+            # Get cache
+            cache = self._shortest_path
+        except AttributeError:
+            # Create cache
+            cache = self._shortest_path = {}
+
+        try:
+            # Get from cache
+            path = cache[(source, target)]
+        except KeyError:
+            # Add to cache
+            path = nx.shortest_path(self._G, source=source, target=target, weighted=True)
+            self._shortest_path[(source, target)] = path
+
+        return path
 
     def closest_node_to(self, x, y):
         """
